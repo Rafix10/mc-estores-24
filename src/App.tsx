@@ -113,7 +113,6 @@ const faqs = [
 
 const tickerItems = ["Atendimento 24 horas", "Todos os dias do ano", "Reparação urgente", "Orçamento gratuito", "Fins de semana e feriados", "Instalação e motorização"];
 const weekDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
-const liveMessages = ["Reparação concluída em Lisboa", "Motor instalado no Porto", "Estore substituído em Setúbal", "Pedido confirmado em Braga", "Manutenção concluída em Faro", "Nova instalação em Coimbra"];
 
 function Logo({ light = false }: { light?: boolean }) {
   return (
@@ -340,7 +339,6 @@ function App() {
   const [activeService, setActiveService] = useState(0);
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
   const [scrolled, setScrolled] = useState(false);
-  const [liveActivity, setLiveActivity] = useState(0);
   const reduceMotion = useReducedMotion();
   const closeMenu = () => setMenuOpen(false);
 
@@ -351,11 +349,9 @@ function App() {
   }, [reduceMotion, shutterOpen]);
   useEffect(() => { document.body.style.overflow = menuOpen ? "hidden" : ""; return () => { document.body.style.overflow = ""; }; }, [menuOpen]);
   useEffect(() => { const updateHeader = () => setScrolled(window.scrollY > 24); updateHeader(); window.addEventListener("scroll", updateHeader, { passive: true }); return () => window.removeEventListener("scroll", updateHeader); }, []);
-  useEffect(() => { const interval = window.setInterval(() => setLiveActivity((value) => (value + 1) % liveMessages.length), 2200); return () => window.clearInterval(interval); }, []);
 
   return (
     <div className="app-shell">
-      <div className="live-activity" aria-live="polite"><span className="pulse" /> {liveMessages[liveActivity]}</div>
       <header className={`site-header ${scrolled ? "scrolled" : ""}`}>
         <div className="page-width header-inner">
           <a href="#inicio" aria-label="MC Estores - Início"><Logo /></a>
